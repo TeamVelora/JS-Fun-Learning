@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Randomized Quiz</title>
+  <link rel="stylesheet" href="styles/quiz.css">
+</head>
+<body>
+<div id="quiz-selector">
+  <button onclick="selectQuiz(0)">Level 1</button>
+  <button onclick="selectQuiz(1)">Level 2</button>
+  <button onclick="selectQuiz(2)">Level 3</button>
+  <button onclick="selectQuiz(3)">Level 4</button>
+  <button onclick="selectQuiz(4)">Level 5</button>
+</div>
+<div class="container">
+  <div class="quiz-container">
+    <!-- existing content stays the same -->
+
+    <!-- Display question number (e.g., 1/4) -->
+    <div id="intro-message">
+      <h2>Welcome to the Quiz Section!</h2>
+      <p>Select a quiz above to get started.</p>
+    </div>
+    
+    <div id="quiz-name" class="quiz-name" style="display: none;"></div>
+    <div id="question-number" class="question-number" style="display: none;"></div>
+    <div id="question-container" style="display: none;">
+      <h2 id="question-text"></h2>
+    </div>
+    
+    <div id="question-image" class="question-image-container"></div>
+    
+    <div id="answer-container">
+      <div class="answer-box red" id="opt0"></div>
+      <div class="answer-box green" id="opt1"></div>
+      <div class="answer-box blue" id="opt2"></div>
+      <div class="answer-box yellow" id="opt3"></div>
+    </div>
+    <div id="feedback"></div>
+  </div>
+  <script src="scripts/quiz.js"></script>
+</div>
+</body>
+</html>
