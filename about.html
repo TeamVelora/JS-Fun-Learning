@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover the future of JavaScript education with our interactive, gamified learning platform">
+  <title>About | JS Fun Learning - The Future of Coding Education</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6e44ff;
+      --secondary: #00d4ff;
+      --accent: #ff2d75;
+      --dark: #0a0a1a;
+      --light: #f8f9ff;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --glass: rgba(255, 255, 255, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      --shadow-tech: 0 10px 30px -10px rgba(0, 212, 255, 0.3);
+      --border-tech: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba(110, 68, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(0, 212, 255, 0.15) 0%, transparent 50%);
+    }
+
+    /* Navigation */
+    .nav-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(10, 10, 26, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .home-button {
+      padding: 0.5rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(110, 68, 255, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .home-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(110, 68, 255, 0.4);
+    }
+
+    /* Neon scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
+    }
+
+    header {
+      position: relative;
+      padding: 10rem 2rem 6rem;
+      text-align: center;
+      overflow: hidden;
+      background: linear-gradient(135deg, var(--dark), #121230);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    header::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, 
+        var(--primary), var(--secondary), var(--accent));
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      font-size: clamp(2.5rem, 6vw, 4rem);
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+    }
+
+    .tagline {
+      font-size: clamp(1.1rem, 2vw, 1.3rem);
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin: 0 auto 2rem;
+    }
+
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .particle {
+      position: absolute;
+      background: var(--secondary);
+      border-radius: 50%;
+      opacity: 0.5;
+    }
+
+    /* Main content */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+    }
+
+    /* Interactive grid layout */
+    .grid-layout {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin: 4rem 0;
+    }
+
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2.5rem;
+      border: var(--border-tech);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      transform: rotate(45deg);
+      transition: var(--transition);
+      opacity: 0;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-tech);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--secondary);
+    }
+
+    h2 {
+      font-size: 1.8rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 3px;
+    }
+
+    p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    /* Team section */
+    .team-section {
+      margin: 6rem 0;
+      text-align: center;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .team-card {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 2rem;
+      border: var(--border-tech);
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .team-card:hover {
+      transform: translateY(-10px);
+      box-shadow: var(--shadow-tech);
+    }
+
+    .team-img {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1.5rem;
+      border: 3px solid var(--primary);
+      box-shadow: 0 0 20px rgba(110, 68, 255, 0.3);
+      transition: var(--transition);
+    }
+
+    .team-card:hover .team-img {
+      transform: scale(1.05);
+      box-shadow: 0 0 30px rgba(110, 68, 255, 0.5);
+    }
+
+    .team-name {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .team-role {
+      color: var(--secondary);
+      font-weight: 500;
+      margin-bottom: 1rem;
+      display: block;
+    }
+
+    /* Interactive code element */
+    .code-display {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 3rem 0;
+      border: var(--border-tech);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .code-display::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 4px;
+      height: 100%;
+      background: linear-gradient(to bottom, var(--primary), var(--accent));
+    }
+
+    .code-line {
+      display: flex;
+      margin-bottom: 0.5rem;
+      font-family: 'Courier New', monospace;
+      color: var(--text-secondary);
+    }
+
+    .code-line:hover {
+      color: var(--text-primary);
+    }
+
+    .line-number {
+      color: var(--secondary);
+      margin-right: 1rem;
+      opacity: 0.6;
+    }
+
+    /* Floating action button */
+    .fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 20px rgba(110, 68, 255, 0.5);
+      cursor: pointer;
+      z-index: 100;
+      transition: var(--transition);
+      border: none;
+    }
+
+    .fab:hover {
+      transform: scale(1.1) rotate(90deg);
+      box-shadow: 0 8px 30px rgba(110, 68, 255, 0.7);
+    }
+
+    /* Footer */
+    footer {
+      background: linear-gradient(180deg, rgba(10, 10, 26, 0), rgba(10, 10, 26, 1));
+      padding: 4rem 2rem 2rem;
+      text-align: center;
+      position: relative;
+      margin-top: 6rem;
+    }
+
+    footer::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.5), transparent);
+    }
+
+    .footer-content {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .social-link {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--card-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+
+    .social-link:hover {
+      background: var(--primary);
+      transform: translateY(-5px);
+    }
+
+    .copyright {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    /* Back to Home Section */
+    .back-home-section {
+      text-align: center;
+      margin: 4rem 0;
+    }
+
+    .back-home-section h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      background: linear-gradient(90deg, var(--secondary), var(--accent));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .large-home-button {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1.1rem;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(110, 68, 255, 0.3);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .large-home-button:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(110, 68, 255, 0.4);
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .floating {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Interactive cursor effect */
+    .cursor-follower {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(0, 212, 255, 0.3);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+      mix-blend-mode: screen;
+    }
+
+    /* Glitch effect on hover */
+    .glitch-hover {
+      position: relative;
+    }
+
+    .glitch-hover:hover::before,
+    .glitch-hover:hover::after {
+      content: attr(data-text);
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: transparent;
+    }
+
+    .glitch-hover:hover::before {
+      color: var(--accent);
+      animation: glitch-effect 1s infinite linear alternate-reverse;
+      left: 2px;
+    }
+
+    .glitch-hover:hover::after {
+      color: var(--secondary);
+      animation: glitch-effect 1s infinite linear alternate-reverse;
+      left: -2px;
+    }
+
+    @keyframes glitch-effect {
+      0% { transform: translate(0); }
+      20% { transform: translate(-3px, 3px); }
+      40% { transform: translate(-3px, -3px); }
+      60% { transform: translate(3px, 3px); }
+      80% { transform: translate(3px, -3px); }
+      100% { transform: translate(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header {
+        padding: 8rem 1.5rem 4rem;
+      }
+      
+      .grid-layout {
+        grid-template-columns: 1fr;
+      }
+      
+      .card {
+        min-height: auto;
+      }
+
+      .nav-links {
+        gap: 1rem;
+      }
+
+      .home-button {
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated cursor follower -->
+  <div class="cursor-follower"></div>
+
+  <!-- Navigation -->
+  <div class="nav-container">
+    <nav>
+      <a href="index.html" class="logo">JS Fun Learning</a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="learn.html" class="nav-link">Learn</a>
+        <a href="about.html" class="nav-link">About us</a>
+        <a href="index.html" class="home-button">
+          <i class="fas fa-home"></i> Back Home
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <header>
+    <div class="particles" id="particles"></div>
+    <div class="header-content">
+      <h1 class="glitch-hover" data-text="About JS Fun Learning">About JS Fun Learning</h1>
+      <p class="tagline">Where coding meets creativity in a futuristic learning environment</p>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="grid-layout" id="about">
+      <div class="card floating">
+        <div class="card-icon">
+          <i class="fas fa-rocket"></i>
+        </div>
+        <h2>Our Vision</h2>
+        <p>We're redefining JavaScript education through immersive, interactive experiences that make learning feel like play. Our platform combines game mechanics with real-world coding challenges.</p>
+        <div class="code-display">
+          <div class="code-line"><span class="line-number">1</span> <span>// We believe in learning by doing</span></div>
+          <div class="code-line"><span class="line-number">2</span> <span>function createFuture() {</span></div>
+          <div class="code-line"><span class="line-number">3</span> <span>  return education.map(</span></div>
+          <div class="code-line"><span class="line-number">4</span> <span>    lesson => makeInteractive(lesson)</span></div>
+          <div class="code-line"><span class="line-number">5</span> <span>  );</span></div>
+          <div class="code-line"><span class="line-number">6</span> <span>}</span></div>
+        </div>
+      </div>
+
+      <div class="card floating" style="animation-delay: 0.2s;">
+        <div class="card-icon">
+          <i class="fas fa-gamepad"></i>
+        </div>
+        <h2>Interactive Learning</h2>
+        <p>Our platform features:</p>
+        <ul style="list-style: none;">
+          <li><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> Real-time code playgrounds</li>
+          <li><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> 3D visualizations of concepts</li>
+          <li><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> AI-powered code assistance</li>
+          <li><i class="fas fa-check" style="color: var(--secondary); margin-right: 0.5rem;"></i> Gamified progress tracking</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="grid-layout" id="methodology">
+      <div class="card">
+        <div class="card-icon">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h2>Proven Results</h2>
+        <p>Our students achieve mastery 3x faster than traditional methods:</p>
+        <div style="display: flex; justify-content: space-between; margin-top: 1.5rem;">
+          <div style="text-align: center;">
+            <div style="font-size: 2rem; font-weight: 700; color: var(--secondary);">94%</div>
+            <div style="font-size: 0.9rem;">Completion Rate</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 2rem; font-weight: 700; color: var(--secondary);">10k+</div>
+            <div style="font-size: 0.9rem;">Projects Built</div>
+          </div>
+          <div style="text-align: center;">
+            <div style="font-size: 2rem; font-weight: 700; color: var(--secondary);">4.9★</div>
+            <div style="font-size: 0.9rem;">Average Rating</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-icon">
+          <i class="fas fa-cogs"></i>
+        </div>
+        <h2>Tech Stack</h2>
+        <p>We build with cutting-edge technologies:</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;">
+          <span style="background: rgba(0, 212, 255, 0.1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem;">WebGL</span>
+          <span style="background: rgba(110, 68, 255, 0.1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem;">Three.js</span>
+          <span style="background: rgba(255, 45, 117, 0.1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem;">AI/ML</span>
+          <span style="background: rgba(0, 212, 255, 0.1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem;">WebSockets</span>
+          <span style="background: rgba(110, 68, 255, 0.1); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.9rem;">React</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-section" id="innovators">
+      <h2 class="glitch-hover" data-text="The Innovators">The Innovators</h2>
+      <p>Meet the brilliant minds revolutionizing JavaScript education</p>
+      
+      <div class="team-grid">
+        <div class="team-card">
+          <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Codey McScript" class="team-img">
+          <h3 class="team-name">Codey McScript</h3>
+          <span class="team-role">Chief Innovation Officer</span>
+          <p>Former game developer bringing play to programming education. Created our interactive learning engine.</p>
+          <div class="social-links" style="justify-content: center; margin-top: 1rem;">
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        
+        <div class="team-card">
+          <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Debuggy Davis" class="team-img">
+          <h3 class="team-name">Debuggy Davis</h3>
+          <span class="team-role">Tech Lead</span>
+          <p>Architect of our real-time code evaluation system. Makes complex concepts visually intuitive.</p>
+          <div class="social-links" style="justify-content: center; margin-top: 1rem;">
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+        
+        <div class="team-card">
+          <img src="https://randomuser.me/api/portraits/women/68.jpg" alt="Array Anne" class="team-img">
+          <h3 class="team-name">Array Anne</h3>
+          <span class="team-role">Learning Architect</span>
+          <p>Combines cognitive science with interactive design to create optimal learning pathways.</p>
+          <div class="social-links" style="justify-content: center; margin-top: 1rem;">
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <img src="https://randomuser.me/api/portraits/men/75.jpg" alt="Promise Patel" class="team-img">
+          <h3 class="team-name">Promise Patel</h3>
+          <span class="team-role">AI Specialist</span>
+          <p>Develops our smart code assistance and personalized learning algorithms.</p>
+          <div class="social-links" style="justify-content: center; margin-top: 1rem;">
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="team-card">
+          <img src="https://randomuser.me/api/portraits/women/33.jpg" alt="DOM Dominique" class="team-img">
+          <h3 class="team-name">DOM Dominique</h3>
+          <span class="team-role">UX Wizard</span>
+          <p>Designs immersive learning experiences that keep students engaged and motivated.</p>
+          <div class="social-links" style="justify-content: center; margin-top: 1rem;">
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Back to Home Section -->
+    <div class="back-home-section">
+      <h3>Ready to start your coding journey?</h3>
+      <a href="index.html" class="large-home-button">
+        <i class="fas fa-arrow-left"></i> Return to Homepage
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-content">
+      <h3 style="margin-bottom: 1rem;">Join our coding revolution</h3>
+      <p>Be part of the future of JavaScript education</p>
+      
+      <div class="social-links">
+        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-discord"></i></a>
+        <a href="#" class="social-link"><i class="fab fa-youtube"></i></a>
+      </div>
+      
+      <p class="copyright">© 2025 JS Fun Learning | The Future of Coding Education</p>
+    </div>
+  </footer>
+
+  <!-- Floating action button -->
+  <button class="fab pulse">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Particle animation for header
+    document.addEventListener('DOMContentLoaded', () => {
+      const particlesContainer = document.getElementById('particles');
+      const particleCount = 30;
+      
+      for (let i = 0; i < particleCount; i++) {
+        const particle = document.createElement('div');
+        particle.classList.add('particle');
+        
+        // Random properties
+        const size = Math.random() * 5 + 2;
+        const posX = Math.random() * 100;
+        const posY = Math.random() * 100;
+        const delay = Math.random() * 5;
+        const duration = Math.random() * 10 + 10;
+        
+        particle.style.width = `${size}px`;
+        particle.style.height = `${size}px`;
+        particle.style.left = `${posX}%`;
+        particle.style.top = `${posY}%`;
+        particle.style.animationDelay = `${delay}s`;
+        particle.style.animationDuration = `${duration}s`;
+        
+        particlesContainer.appendChild(particle);
+      }
+      
+      // Cursor follower
+      const cursorFollower = document.querySelector('.cursor-follower');
+      document.addEventListener('mousemove', (e) => {
+        cursorFollower.style.left = `${e.clientX}px`;
+        cursorFollower.style.top = `${e.clientY}px`;
+      });
+      
+      // Interactive elements effect
+      const interactiveElements = document.querySelectorAll('.card, .team-card, .social-link, .nav-link, .home-button');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursorFollower.style.transform = 'translate(-50%, -50%) scale(2)';
+          cursorFollower.style.background = 'rgba(0, 212, 255, 0.5)';
+        });
+        el.addEventListener('mouseleave', () => {
+          cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
+          cursorFollower.style.background = 'rgba(0, 212, 255, 0.3)';
+        });
+      });
+      
+      // Back to top button
+      const fab = document.querySelector('.fab');
+      fab.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // Navbar scroll effect
+      window.addEventListener('scroll', () => {
+        const nav = document.querySelector('.nav-container');
+        if (window.scrollY > 50) {
+          nav.style.background = 'rgba(10, 10, 26, 0.95)';
+          nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.2)';
+        } else {
+          nav.style.background = 'rgba(10, 10, 26, 0.8)';
+          nav.style.boxShadow = 'none';
+        }
+      });
+      
+      // Smooth scrolling for navigation
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+      
+      // Scroll reveal animation
+      const animateOnScroll = () => {
+        const cards = document.querySelectorAll('.card');
+        cards.forEach((card, index) => {
+          const cardPosition = card.getBoundingClientRect().top;
+          const screenPosition = window.innerHeight / 1.3;
+          
+          if (cardPosition < screenPosition) {
+            card.style.animation = `float 3s ease-in-out ${index * 0.1}s infinite`;
+          }
+        });
+      };
+      
+      window.addEventListener('scroll', animateOnScroll);
+      animateOnScroll();
+    });
+  </script>
+</body>
+</html>

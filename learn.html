@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript Closures | JS Fun Learning</title>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6e44ff;
+      --secondary: #00d4ff;
+      --accent: #ff2d75;
+      --dark: #0a0a1a;
+      --light: #f8f9ff;
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --glass: rgba(255, 255, 255, 0.1);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.7);
+      --transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+      --shadow-tech: 0 10px 30px -10px rgba(0, 212, 255, 0.3);
+      --border-tech: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: var(--dark);
+      color: var(--text-primary);
+      line-height: 1.6;
+      overflow-x: hidden;
+      background-image: 
+        radial-gradient(circle at 25% 25%, rgba(110, 68, 255, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 75% 75%, rgba(0, 212, 255, 0.15) 0%, transparent 50%);
+    }
+
+    /* Navigation */
+    .nav-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      background: rgba(10, 10, 26, 0.8);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: var(--transition);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: var(--transition);
+      position: relative;
+    }
+
+    .nav-link:hover {
+      color: var(--text-primary);
+    }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      bottom: -5px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--secondary);
+      transition: var(--transition);
+    }
+
+    .nav-link:hover::after {
+      width: 100%;
+    }
+
+    .cta-button {
+      padding: 0.5rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 50px;
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(110, 68, 255, 0.3);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(110, 68, 255, 0.4);
+    }
+
+    /* Neon scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--dark);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: var(--primary);
+      border-radius: 4px;
+    }
+
+    /* Learning Page Layout */
+    .learning-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 6rem 2rem 2rem;
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 2rem;
+    }
+
+    .main-content {
+      position: relative;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 6rem;
+      height: fit-content;
+    }
+
+    /* Lesson Header */
+    .lesson-header {
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .lesson-title {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .lesson-meta {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-secondary);
+    }
+
+    .lesson-progress {
+      height: 6px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      margin-bottom: 2rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      width: 35%;
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+
+    /* Content Sections */
+    .content-section {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 2.5rem;
+      border: var(--border-tech);
+      margin-bottom: 2rem;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .content-section:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-tech);
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      color: var(--secondary);
+      position: relative;
+      display: inline-block;
+    }
+
+    .section-title::after {
+      content: "";
+      position: absolute;
+      bottom: -8px;
+      left: 0;
+      width: 50px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      border-radius: 3px;
+    }
+
+    /* Notes Section */
+    .notes-content {
+      color: var(--text-secondary);
+      line-height: 1.8;
+    }
+
+    .notes-content h3 {
+      color: var(--text-primary);
+      margin: 1.5rem 0 1rem;
+      font-size: 1.2rem;
+    }
+
+    .notes-content p {
+      margin-bottom: 1rem;
+    }
+
+    .notes-content ul, .notes-content ol {
+      margin: 1rem 0 1rem 2rem;
+    }
+
+    /* Code Blocks */
+    .code-block {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+      border-left: 4px solid var(--primary);
+      font-family: 'Courier New', monospace;
+      overflow-x: auto;
+    }
+
+    .code-keyword {
+      color: var(--primary);
+    }
+
+    .code-string {
+      color: var(--accent);
+    }
+
+    .code-comment {
+      color: #666;
+      font-style: italic;
+    }
+
+    /* Interactive Example */
+    .interactive-example {
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+      padding: 2rem;
+      margin: 2rem 0;
+      border: var(--border-tech);
+    }
+
+    .example-title {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--secondary);
+    }
+
+    /* Quiz Section */
+    .quiz-question {
+      margin-bottom: 2rem;
+    }
+
+    .question-text {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--text-primary);
+    }
+
+    .quiz-options {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .quiz-option {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
+    .quiz-option:hover {
+      background: rgba(0, 212, 255, 0.1);
+      border-color: var(--secondary);
+    }
+
+    .quiz-option.correct {
+      background: rgba(40, 167, 69, 0.2);
+      border-color: #28a745;
+    }
+
+    .quiz-option.incorrect {
+      background: rgba(220, 53, 69, 0.2);
+      border-color: #dc3545;
+    }
+
+    .quiz-feedback {
+      margin-top: 1rem;
+      padding: 1rem;
+      border-radius: 8px;
+      display: none;
+    }
+
+    .feedback-correct {
+      background: rgba(40, 167, 69, 0.2);
+      border-left: 4px solid #28a745;
+    }
+
+    .feedback-incorrect {
+      background: rgba(220, 53, 69, 0.2);
+      border-left: 4px solid #dc3545;
+    }
+
+    /* Assessment Section */
+    .assessment-form {
+      display: grid;
+      gap: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-primary);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.8rem;
+      background: rgba(255, 255, 255, 0.1);
+      border: var(--border-tech);
+      border-radius: 8px;
+      color: var(--text-primary);
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--secondary);
+      box-shadow: 0 0 0 2px rgba(0, 212, 255, 0.2);
+    }
+
+    .submit-btn {
+      padding: 0.8rem 1.5rem;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border: none;
+      border-radius: 50px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      justify-self: start;
+    }
+
+    .submit-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(110, 68, 255, 0.4);
+    }
+
+    /* Sidebar */
+    .sidebar-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      padding: 1.5rem;
+      border: var(--border-tech);
+      margin-bottom: 1.5rem;
+    }
+
+    .sidebar-title {
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+      color: var(--secondary);
+    }
+
+    .chapter-list {
+      list-style: none;
+    }
+
+    .chapter-item {
+      margin-bottom: 0.8rem;
+    }
+
+    .chapter-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .chapter-link:hover {
+      color: var(--secondary);
+    }
+
+    .chapter-link.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .chapter-link i {
+      font-size: 0.8rem;
+    }
+
+    .resource-list {
+      list-style: none;
+    }
+
+    .resource-item {
+      margin-bottom: 0.8rem;
+    }
+
+    .resource-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .resource-link:hover {
+      color: var(--secondary);
+    }
+
+    /* Completion Badge */
+    .completion-badge {
+      text-align: center;
+      padding: 1.5rem;
+    }
+
+    .badge-icon {
+      font-size: 3rem;
+      color: var(--secondary);
+      margin-bottom: 1rem;
+    }
+
+    .badge-text {
+      color: var(--text-secondary);
+    }
+
+    /* Floating action button */
+    .fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1.5rem;
+      box-shadow: 0 5px 20px rgba(110, 68, 255, 0.5);
+      cursor: pointer;
+      z-index: 100;
+      transition: var(--transition);
+      border: none;
+    }
+
+    .fab:hover {
+      transform: scale(1.1);
+      box-shadow: 0 8px 30px rgba(110, 68, 255, 0.7);
+    }
+
+    /* Animations */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .floating {
+      animation: float 4s ease-in-out infinite;
+    }
+
+    .pulse {
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    /* Interactive cursor effect */
+    .cursor-follower {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(0, 212, 255, 0.3);
+      pointer-events: none;
+      z-index: 9999;
+      transform: translate(-50%, -50%);
+      transition: transform 0.1s ease;
+      mix-blend-mode: screen;
+    }
+
+    /* Responsive */
+    @media (max-width: 992px) {
+      .learning-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .sidebar {
+        position: static;
+        order: -1;
+        margin-bottom: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-links {
+        gap: 1rem;
+      }
+      
+      .lesson-title {
+        font-size: 2rem;
+      }
+      
+      .content-section {
+        padding: 1.5rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+      
+      .lesson-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated cursor follower -->
+  <div class="cursor-follower"></div>
+
+  <!-- Navigation -->
+  <div class="nav-container">
+    <nav>
+      <a href="index.html" class="logo">JS Fun Learning</a>
+      <div class="nav-links">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="learn.html" class="nav-link">Learn</a>
+        <a href="about.html" class="nav-link">About</a>
+        <a href="index.html" class="cta-button">
+          <i class="fas fa-user-astronaut"></i> Back home
+        </a>
+      </div>
+    </nav>
+  </div>
+
+  <!-- Main Content -->
+  <div class="learning-container">
+    <main class="main-content">
+      <!-- Lesson Header -->
+      <header class="lesson-header">
+        <h1 class="lesson-title">JavaScript Closures</h1>
+        <div class="lesson-meta">
+          <span><i class="fas fa-clock"></i> 15 min lesson</span>
+          <span><i class="fas fa-layer-group"></i> Intermediate</span>
+          <span><i class="fas fa-bolt"></i> 85% success rate</span>
+        </div>
+        <div class="lesson-progress">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </header>
+
+      <!-- Notes Section -->
+      <section class="content-section" id="notes">
+        <h2 class="section-title"><i class="fas fa-book-open"></i> Lesson Notes</h2>
+        <div class="notes-content">
+          <h3>What Are Closures?</h3>
+          <p>A closure is a function that has access to its own scope, the outer function's variables, and global variables - even after the outer function has returned.</p>
+          
+          <div class="code-block">
+            <span class="code-keyword">function</span> outerFunction() {<br>
+            &nbsp;&nbsp;<span class="code-keyword">const</span> outerVar = <span class="code-string">'I am outside!'</span>;<br><br>
+            &nbsp;&nbsp;<span class="code-keyword">function</span> innerFunction() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(outerVar); <span class="code-comment">// Access to outerVar</span><br>
+            &nbsp;&nbsp;}<br><br>
+            &nbsp;&nbsp;<span class="code-keyword">return</span> innerFunction;<br>
+            }<br><br>
+            <span class="code-keyword">const</span> myClosure = outerFunction();<br>
+            myClosure(); <span class="code-comment">// Logs: "I am outside!"</span>
+          </div>
+
+          <h3>Why Use Closures?</h3>
+          <p>Closures are useful for:</p>
+          <ul>
+            <li>Data privacy and encapsulation</li>
+            <li>Creating function factories</li>
+            <li>Implementing currying</li>
+            <li>Maintaining state in async operations</li>
+          </ul>
+
+          <div class="interactive-example">
+            <h3 class="example-title"><i class="fas fa-flask"></i> Interactive Example</h3>
+            <p>Try creating a counter using closures:</p>
+            <div class="code-block" id="interactiveCode">
+              <span class="code-keyword">function</span> createCounter() {<br>
+              &nbsp;&nbsp;<span class="code-keyword">let</span> count = 0;<br><br>
+              &nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-keyword">function</span>() {<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;count++;<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;<span class="code-keyword">return</span> count;<br>
+              &nbsp;&nbsp;}<br>
+              }<br><br>
+              <span class="code-keyword">const</span> counter = createCounter();<br>
+              console.log(counter()); <span class="code-comment">// Try running this multiple times</span>
+            </div>
+            <button class="cta-button" style="margin-top: 1rem;" onclick="runInteractiveCode()">
+              <i class="fas fa-play"></i> Run Code
+            </button>
+            <div id="codeOutput" style="margin-top: 1rem; padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px; display: none;">
+              <h4 style="color: var(--secondary); margin-bottom: 0.5rem;">Output:</h4>
+              <div id="outputContent"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Quiz Section -->
+      <section class="content-section" id="quiz">
+        <h2 class="section-title"><i class="fas fa-question-circle"></i> Knowledge Check</h2>
+        <div class="quiz-question">
+          <p class="question-text">1. What will be logged to the console?</p>
+          <div class="code-block">
+            <span class="code-keyword">function</span> outer() {<br>
+            &nbsp;&nbsp;<span class="code-keyword">let</span> x = 10;<br>
+            &nbsp;&nbsp;<span class="code-keyword">return</span> <span class="code-keyword">function</span> inner() {<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;console.log(x);<br>
+            &nbsp;&nbsp;}<br>
+            }<br>
+            <span class="code-keyword">const</span> innerFn = outer();<br>
+            innerFn();
+          </div>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="checkAnswer(this, true, 'Correct! The inner function maintains access to x through closure.')">
+              A) 10
+            </div>
+            <div class="quiz-option" onclick="checkAnswer(this, false, 'Incorrect. The inner function has access to x through closure.')">
+              B) undefined
+            </div>
+            <div class="quiz-option" onclick="checkAnswer(this, false, 'Incorrect. The inner function has access to x through closure.')">
+              C) ReferenceError
+            </div>
+            <div class="quiz-option" onclick="checkAnswer(this, false, 'Incorrect. The inner function has access to x through closure.')">
+              D) null
+            </div>
+          </div>
+          <div class="quiz-feedback feedback-correct" id="feedback1"></div>
+        </div>
+
+        <div class="quiz-question">
+          <p class="question-text">2. Which of these is NOT a practical use case for closures?</p>
+          <div class="quiz-options">
+            <div class="quiz-option" onclick="checkAnswer(this, false, 'Incorrect. Closures are excellent for data encapsulation.')">
+              A) Creating private variables
+            </div>
+            <div class="quiz-option" onclick="checkAnswer(this, false, 'Incorrect. Closures are used to maintain state in event handlers.')">
+              B) Maintaining state in event handlers
+            </div>
+            <div class="quiz-option" onclick="checkAnswer(this, true, 'Correct! Closures have nothing to do with CSS styling.')">
+              C) Styling HTML elements
+            </div>
+            <div class="quiz-option" onclick="checkAnswer(this, false, 'Incorrect. Closures are used to implement function factories.')">
+              D) Creating function factories
+            </div>
+          </div>
+          <div class="quiz-feedback feedback-correct" id="feedback2"></div>
+        </div>
+      </section>
+
+      <!-- Assessment Section -->
+      <section class="content-section" id="assessment">
+        <h2 class="section-title"><i class="fas fa-tasks"></i> Coding Challenge</h2>
+        <p>Create a function <code>createMultiplier</code> that takes a number and returns a function that multiplies its input by that number.</p>
+        
+        <div class="assessment-form">
+          <div class="form-group">
+            <label for="solution" class="form-label">Your Solution:</label>
+            <textarea id="solution" class="form-input" rows="8" placeholder="Write your code here..."></textarea>
+          </div>
+          <button class="submit-btn" onclick="submitSolution()">
+            <i class="fas fa-paper-plane"></i> Submit Solution
+          </button>
+        </div>
+        
+        <div id="assessmentFeedback" style="margin-top: 1.5rem; display: none;">
+          <h3 style="color: var(--secondary); margin-bottom: 0.5rem;">Feedback:</h3>
+          <div id="feedbackContent" style="padding: 1rem; background: rgba(0,0,0,0.3); border-radius: 8px;"></div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar-card">
+        <h3 class="sidebar-title"><i class="fas fa-list-ol"></i> Course Chapters</h3>
+        <ul class="chapter-list">
+          <li class="chapter-item"><a href="#" class="chapter-link"><i class="fas fa-play"></i> Introduction to Scope</a></li>
+          <li class="chapter-item"><a href="#" class="chapter-link"><i class="fas fa-play"></i> Lexical Scoping</a></li>
+          <li class="chapter-item"><a href="#" class="chapter-link active"><i class="fas fa-play"></i> Closures</a></li>
+          <li class="chapter-item"><a href="#" class="chapter-link"><i class="fas fa-lock"></i> Module Pattern</a></li>
+          <li class="chapter-item"><a href="#" class="chapter-link"><i class="fas fa-lock"></i> Practical Applications</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card">
+        <h3 class="sidebar-title"><i class="fas fa-bookmark"></i> Resources</h3>
+        <ul class="resource-list">
+          <li class="resource-item"><a href="#" class="resource-link"><i class="fas fa-file-alt"></i> Closures Cheat Sheet</a></li>
+          <li class="resource-item"><a href="#" class="resource-link"><i class="fas fa-video"></i> Video Explanation</a></li>
+          <li class="resource-item"><a href="#" class="resource-link"><i class="fas fa-code"></i> Practice Exercises</a></li>
+        </ul>
+      </div>
+
+      <div class="sidebar-card completion-badge">
+        <div class="badge-icon">
+          <i class="fas fa-medal"></i>
+        </div>
+        <h3 class="sidebar-title">Complete This Lesson</h3>
+        <p class="badge-text">Finish all sections to earn your Closure Mastery badge!</p>
+        <button class="cta-button" style="margin-top: 1rem; width: 100%;" onclick="completeLesson()">
+          <i class="fas fa-check"></i> Mark Complete
+        </button>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Floating action button -->
+  <button class="fab pulse">
+    <i class="fas fa-arrow-up"></i>
+  </button>
+
+  <script>
+    // Interactive elements
+    document.addEventListener('DOMContentLoaded', () => {
+      // Cursor follower
+      const cursorFollower = document.querySelector('.cursor-follower');
+      document.addEventListener('mousemove', (e) => {
+        cursorFollower.style.left = `${e.clientX}px`;
+        cursorFollower.style.top = `${e.clientY}px`;
+      });
+      
+      // Interactive elements effect
+      const interactiveElements = document.querySelectorAll('.quiz-option, .cta-button, .submit-btn, .chapter-link, .resource-link, .nav-link');
+      interactiveElements.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+          cursorFollower.style.transform = 'translate(-50%, -50%) scale(2)';
+          cursorFollower.style.background = 'rgba(0, 212, 255, 0.5)';
+        });
+        el.addEventListener('mouseleave', () => {
+          cursorFollower.style.transform = 'translate(-50%, -50%) scale(1)';
+          cursorFollower.style.background = 'rgba(0, 212, 255, 0.3)';
+        });
+      });
+      
+      // Back to top button
+      const fab = document.querySelector('.fab');
+      fab.addEventListener('click', () => {
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth'
+        });
+      });
+      
+      // Navbar scroll effect
+      window.addEventListener('scroll', () => {
+        const nav = document.querySelector('.nav-container');
+        if (window.scrollY > 50) {
+          nav.style.background = 'rgba(10, 10, 26, 0.95)';
+          nav.style.boxShadow = '0 5px 20px rgba(0,0,0,0.2)';
+        } else {
+          nav.style.background = 'rgba(10, 10, 26, 0.8)';
+          nav.style.boxShadow = 'none';
+        }
+      });
+      
+      // Smooth scrolling for navigation
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+          });
+        });
+      });
+      
+      // Update progress as user scrolls
+      window.addEventListener('scroll', updateProgress);
+      updateProgress();
+    });
+
+    // Quiz functionality
+    function checkAnswer(option, isCorrect, feedback) {
+      const question = option.closest('.quiz-question');
+      const feedbackDiv = question.querySelector('.quiz-feedback');
+      
+      // Remove all active classes first
+      question.querySelectorAll('.quiz-option').forEach(opt => {
+        opt.classList.remove('correct', 'incorrect');
+      });
+      
+      // Add appropriate class
+      option.classList.add(isCorrect ? 'correct' : 'incorrect');
+      
+      // Show feedback
+      feedbackDiv.textContent = feedback;
+      feedbackDiv.style.display = 'block';
+      feedbackDiv.className = isCorrect ? 'quiz-feedback feedback-correct' : 'quiz-feedback feedback-incorrect';
+      
+      // Update progress
+      updateProgress();
+    }
+
+    // Interactive code runner
+    function runInteractiveCode() {
+      const outputDiv = document.getElementById('outputContent');
+      const codeOutput = document.getElementById('codeOutput');
+      
+      // Simulate code execution
+      let output = '';
+      output += '> 1\n';
+      output += '> 2\n';
+      output += '> 3\n';
+      output += '> 4\n';
+      
+      outputDiv.innerHTML = output;
+      codeOutput.style.display = 'block';
+      
+      // Update progress
+      updateProgress();
+    }
+
+    // Assessment submission
+    function submitSolution() {
+      const solution = document.getElementById('solution').value;
+      const feedbackDiv = document.getElementById('feedbackContent');
+      const assessmentFeedback = document.getElementById('assessmentFeedback');
+      
+      // Simple validation
+      if (solution.includes('function createMultiplier') && 
+          solution.includes('return') && 
+          solution.includes('*')) {
+        feedbackDiv.innerHTML = `
+          <p style="color: var(--secondary);"><i class="fas fa-check-circle"></i> <strong>Success!</strong> Your solution looks correct.</p>
+          <p style="margin-top: 0.5rem;">Here's how we might implement it:</p>
+          <pre style="background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; margin-top: 0.5rem;">
+function createMultiplier(multiplier) {
+  return function(num) {
+    return num * multiplier;
+  };
+}</pre>
+        `;
+      } else {
+        feedbackDiv.innerHTML = `
+          <p style="color: var(--accent);"><i class="fas fa-exclamation-circle"></i> <strong>Not quite there yet.</strong></p>
+          <p style="margin-top: 0.5rem;">Make sure your function:</p>
+          <ul style="margin: 0.5rem 0 0 1.5rem;">
+            <li>Takes a multiplier parameter</li>
+            <li>Returns a new function</li>
+            <li>The returned function multiplies its input by the multiplier</li>
+          </ul>
+        `;
+      }
+      
+      assessmentFeedback.style.display = 'block';
+      updateProgress();
+    }
+
+    // Complete lesson
+    function completeLesson() {
+      alert('Lesson marked as complete! You earned the Closure Mastery badge.');
+      document.querySelector('.progress-bar').style.width = '100%';
+    }
+
+    // Update progress bar based on completion
+    function updateProgress() {
+      const sections = document.querySelectorAll('.content-section');
+      const progressBar = document.getElementById('progressBar');
+      let completed = 0;
+      
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.7) {
+          completed++;
+        }
+      });
+      
+      const progress = Math.min(100, (completed / sections.length) * 100 + 10);
+      progressBar.style.width = `${progress}%`;
+    }
+  </script>
+</body>
+</html>
